@@ -102,13 +102,16 @@ class Swimming(Training):
         return (self.action * self.LEN_STEP) / Training.M_IN_KM
 
     def get_mean_speed(self):
-        return (self.length_pool * self.count_pool
-                / Training.M_IN_KM / self.duration)
+        return (
+            self.length_pool * self.count_pool
+            / Training.M_IN_KM / self.duration
+        )
 
     def get_spent_calories(self) -> float:
         return (
             (self.get_mean_speed() + self.SWIM_CAL_1)
-            * self.SWIM_CAL_2 * self.weight)
+            * self.SWIM_CAL_2 * self.weight
+        )
 
 
 def read_package(workout_type: str, data: list) -> Training:
@@ -119,7 +122,7 @@ def read_package(workout_type: str, data: list) -> Training:
         'SWM': Swimming,
     }
     if workout_type not in workout_type_and_class:
-        raise ValueError('Ошибка данных')
+        raise ValueError('Неожиданный тип тренировки')
     else:
         training = workout_type_and_class.get(workout_type)(*data)
         return training
@@ -138,6 +141,6 @@ if __name__ == '__main__':
         ('WLK', [9000, 1, 75, 180]),
     ]
 
-for workout_type, data in packages:
-    training = read_package(workout_type, data)
-    main(training)
+    for workout_type, data in packages:
+        training: Training = read_package(workout_type, data)
+        main(training)
